@@ -3,7 +3,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login,logout
 from django.contrib.auth.decorators import login_required
 from .forms import LoginForm, UserRegistrationForm
-
+from django.http import JsonResponse
+import PyPDF2
 
 
 def user_login(request):
@@ -45,3 +46,37 @@ def register(request):
     else:
         user_form=UserRegistrationForm()
         return render(request,'incluLectora/register.html',{'user_form':user_form}) 
+    
+
+
+def cargar_pdf(request):
+    if request.method == 'POST' and request.FILES.get('archivo_pdf'):
+        # Lógica para manejar el archivo PDF
+        archivo_pdf = request.FILES['archivo_pdf']
+
+        # Abrir el archivo PDF en modo binario ('rb')
+        with archivo_pdf.open("rb") as pdf:
+            # Crear un objeto PdfReader
+            reader = PyPDF2.PdfReader(pdf)
+
+            # Obtener el número total de páginas en el PDF
+            total_pages = len(reader.pages)
+
+            # Crear una variable para almacenar el texto extraído
+            extracted_text = ""
+
+            # Iterar sobre todas las páginas y extraer el texto
+            for page_number in range(total_pages):
+                # Obtener la página específica
+                page = reader.pages[page_number]
+
+                # Extraer el texto de la página y agregarlo a la variable
+                extracted_text += page.extract_text()
+
+        # Puedes hacer cualquier otra cosa con la variable 'extracted_text' aquí
+
+        # Devolver respuesta JSON con el texto extraído
+        return JsonResponse({'mensaje': extracted_text})
+    else:
+        return JsonResponse({'mensaje': 'Error: No se recibió el archivo PDF'}, status=400)
+

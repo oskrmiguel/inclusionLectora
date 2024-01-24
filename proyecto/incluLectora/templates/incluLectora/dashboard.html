@@ -1,22 +1,41 @@
 {% extends "base.html" %}
-{% block title %}Extaer Información{% endblock %}
+{% block title %}Extraer Información{% endblock %}
 {% block content %}
-  <div class="container-fluid">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>  
+
+<div class="container-fluid">
     <div class="row">
-      <div class="col-md-8">
-        <h2>Arrastra o carga tus documentos</h2>
-        <form action="" method="post" enctype="multipart/form-data">
-          <div class="form-group">
-            <input type="file" id="fileInput" class="form-control-file" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" multiple>
+      
+      <div class="col-md-6" >
+        <div  class="bg-light p-3">
+          <h2>Arrastra o carga tus documentos</h2>
+          <form id="miFormulario"  action="{% url 'cargar_pdf' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+              <input type="file" id="archivoInput" name="archivo_pdf" class="form-control-file" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" multiple>
+            </div>
+            <button type="button" onclick="enviarFormulario(this)">EnviarAlServidor</button>
+
+          </form>
+          <div id="dropArea" ondragover="handleDragOver(event)">
+            <h3 id="fileInfo" style="display: none;">Archivo cargado: <span id="fileName"></span></h3>
+            
           </div>
-        </form>
-        <div id="dropArea" ondragover="handleDragOver(event)">
-          <h3 id="fileInfo" style="display: none;">Archivo cargado: <span id="fileName"></span></h3>
         </div>
+        <div >
+          <h2>Previsualización</h2>
+          <div id="previewArea"></div>
+        </div>
+
       </div>
-      <div class="col-md-4">
-        <h2>Previsualización</h2>
-        <div id="previewArea"></div>
+      <div class="col-md-6" >
+        <div class="bg-light p-3">
+          <p id="mensaje_respuesta">{{ mensaje_respuesta }}</p>
+          <p><p>{{ mensaje_respuesta }}</p></p>
+          <div id="mensaje_respuesta"></div>
+        </div>
+
       </div>
     </div>
     <button id="extractButton" class="btn btn-primary position-fixed bottom-0 end-0 m-3">Extraer</button>
@@ -24,10 +43,11 @@
 
   <script>
     const dropArea = document.getElementById('dropArea');
-    const fileInput = document.getElementById('fileInput');
+    const fileInput = document.getElementById('archivoInput');
     const previewArea = document.getElementById('previewArea');
     const extractButton = document.getElementById('extractButton');
     const fileName = document.getElementById('fileName');
+    let mensajeRespuesta; // Declarar mensajeRespuesta en el ámbito global
 
     // Handle file drag and drop
     function handleDragOver(e) {
@@ -78,7 +98,7 @@
         previewArea.innerHTML = 'Tipo de archivo no compatible';
       }
     }
-
+    
     // Handle file input change
     fileInput.addEventListener('change', (event) => {
       handleFiles(event.target.files);
@@ -91,5 +111,48 @@
       // Lógica para extraer el documento
       console.log('Documento extraído:', fileName.textContent);
     }
+
+    // Declarar la función fuera del evento DOMContentLoaded
+    function enviarFormulario(button) {
+    // Deshabilitar el botón para evitar clics adicionales
+    button.disabled = true;
+
+    var formulario = document.getElementById("miFormulario");
+    var archivoInput = document.getElementById("archivoInput");
+
+    var formData = new FormData(formulario); // Cambiado a formulario
+
+    fetch("/incluLectora/dashboard/pdf", {
+        method: "POST",
+        body: formData
+    })
+    .then(response => {
+        if (response.headers.get("content-type").includes("application/json")) {
+            return response.json();
+        } else {
+            return response.text();
+        }
+    })
+    .then(data => {
+        // Verificar si la respuesta es JSON o texto
+        if (typeof data === 'object') {
+            mensajeRespuesta.innerHTML = data.mensaje;
+        } else {
+            mensajeRespuesta.innerHTML = data;
+        }
+    })
+    .catch(error => {
+        console.error("Error al enviar el formulario:", error);
+    })
+    .finally(() => {
+        // Habilitar el botón después de que se complete la solicitud (éxito o error)
+        button.disabled = false;
+    });
+}
+
+
+    document.addEventListener('DOMContentLoaded', function () {
+        mensajeRespuesta = document.getElementById('mensaje_respuesta'); // Asignar el valor de mensajeRespuesta
+    });
   </script>
 {% endblock %}
