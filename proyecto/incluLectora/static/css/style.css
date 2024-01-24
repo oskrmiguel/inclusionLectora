@@ -1,0 +1,77 @@
+.container_audio {
+    width: 24rem;
+    height: auto;
+    background-color: rgba(17, 90, 178, 0.36);
+    border-radius: 5%;
+    display: flex;
+    align-items: center;
+}
+
+.fa-solid {
+    margin: 0.5rem;
+    width: 0.5rem;
+}
+
+.fa-pause {
+    display : none;
+}
+
+.playrate {
+    font-family: 'Merriweather', serif;
+}
+
+.btn {
+    border-radius: 30%;
+    width: 2.5rem;
+    height: 2.5rem;
+    background-color: transparent;
+    border: none;
+    transition: 0.5s;
+    margin: 0 2px 0 0;
+    display: flex;
+    justify-content: center;
+    align-items:center;
+}
+
+.play {
+    display: inline-block;
+}
+
+.pause {
+    display: none;
+}
+
+.btn:hover > i{
+    color: #ff6b0c;
+    font-weight: 700;
+}
+
+.btn:hover > span{
+    color: #ff6b0c;
+    font-weight: bold;
+}
+
+span {
+    transition: 0.3s;
+}
+
+i {
+    transition: 0.3s;
+}
+
+.mybtn {
+    display: inline-block;
+    width: 2.5rem;
+    height: 2.5rem;
+}
+
+.mydiv {
+    width: 5rem;
+    height: 5rem;
+    border-radius: 20%;
+    background-color: red;
+    color: aqua;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

@@ -1,11 +1,13 @@
+import os
 from django.shortcuts import render,redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login,logout
 from django.contrib.auth.decorators import login_required
 from .forms import LoginForm, UserRegistrationForm
 from django.http import JsonResponse
+from django.conf import settings
 import PyPDF2
-
+from gtts import gTTS
 
 def user_login(request):
     if request.method == 'POST':
@@ -74,9 +76,28 @@ def cargar_pdf(request):
                 extracted_text += page.extract_text()
 
         # Puedes hacer cualquier otra cosa con la variable 'extracted_text' aquí
+        ruta_archivo = os.path.join(settings.BASE_DIR, './incluLectora/static/tmp', 'archivo.txt')
+
+        text = extracted_text.encode('utf-8')
+        print(text.decode("utf-8"))
+
+        with open(ruta_archivo, 'w', encoding='utf-8') as archivo:
+            archivo.write(text.decode("utf-8").rstrip("\n"))
+        archivo.close()
+
+        ruta_archivo = os.path.join(settings.BASE_DIR, './incluLectora/static/tmp', 'archivo.txt')
+
+        with open(ruta_archivo, 'r', encoding='utf-8') as archivo:
+            text = archivo.read()
+
+        language = 'es-us'
+        speech = gTTS(text=text, lang=language, slow=False)
+        # Guardar el archivo de audio
+        speech.save("./incluLectora/static/tmp/audio.mp3")
 
         # Devolver respuesta JSON con el texto extraído
         return JsonResponse({'mensaje': extracted_text})
     else:
         return JsonResponse({'mensaje': 'Error: No se recibió el archivo PDF'}, status=400)
 
+        
