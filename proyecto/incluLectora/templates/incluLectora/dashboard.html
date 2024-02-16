@@ -51,7 +51,7 @@
 
           <div class="d-flex justify-content-center align-items-center">
             <div class="container_audio">
-              <audio type="audio/mp3" class="mus"></audio>
+              <audio id="audio" type="audio/mp3" class="mus"></audio>
                 <button draggable="true" class="btn play"><i class="fa-solid fa-play"></i></button>
                 <button draggable="true" class="btn pause"><i class="fa-solid fa-pause"></i></button>
                 <button draggable="true" class="btn info" id="draget"><i class="fa-solid fa-info"></i></button>
@@ -193,6 +193,27 @@
       console.log('Documento extraído:', fileName.textContent);
     }
 
+
+    function cargarYReproducirAudio(audioBase64) {
+      // Decodificar el audio desde Base64
+      const audioData = atob(audioBase64);
+      const arrayBuffer = new ArrayBuffer(audioData.length);
+      const view = new Uint8Array(arrayBuffer);
+      for (let i = 0; i < audioData.length; i++) {
+        view[i] = audioData.charCodeAt(i);
+      }
+      const blob = new Blob([view], { type: 'audio/mp3' });
+      const audioUrl = URL.createObjectURL(blob);
+
+      // Obtener el elemento de audio y asignarle la URL del audio
+      const audioElement = document.getElementById('audio');
+      audioElement.src = audioUrl;
+
+      // Reproducir el audio automáticamente
+      audioElement.play();
+    }
+
+
     // Declarar la función fuera del evento DOMContentLoaded
     function enviarFormulario(button) {
     // Deshabilitar el botón para evitar clics adicionales
@@ -221,6 +242,10 @@
         } else {
             mensajeRespuesta.innerHTML = data;
         }
+        if (data.audio) {
+              // Cargar y reproducir el audio
+              cargarYReproducirAudio(data.audio);
+          }
     })
     .catch(error => {
         console.error("Error al enviar el formulario:", error);

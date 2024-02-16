@@ -7,6 +7,13 @@ from .forms import LoginForm, UserRegistrationForm
 from django.http import JsonResponse
 from django.conf import settings
 import PyPDF2
+
+from io import BytesIO
+from pdfminer.high_level import extract_text_to_fp
+from pdfminer.layout import LAParams
+from io import StringIO
+import base64
+
 from gtts import gTTS
 
 def user_login(request):
@@ -51,53 +58,48 @@ def register(request):
     
 
 
+def extract_text_from_uploaded_pdf_helper(pdf_file_obj):
+    output_string = StringIO()
+    laparams = LAParams()  # Puedes ajustar los parámetros de diseño según tus necesidades
+    extract_text_to_fp(pdf_file_obj, output_string, output_type='text', codec='utf-8', laparams=laparams)
+    output_string.seek(0)
+    text = output_string.read().strip()
+    output_string.close()
+    return text
+
 def cargar_pdf(request):
     if request.method == 'POST' and request.FILES.get('archivo_pdf'):
-        # Lógica para manejar el archivo PDF
-        archivo_pdf = request.FILES['archivo_pdf']
-
-        # Abrir el archivo PDF en modo binario ('rb')
-        with archivo_pdf.open("rb") as pdf:
-            # Crear un objeto PdfReader
-            reader = PyPDF2.PdfReader(pdf)
-
-            # Obtener el número total de páginas en el PDF
-            total_pages = len(reader.pages)
-
-            # Crear una variable para almacenar el texto extraído
-            extracted_text = ""
-
-            # Iterar sobre todas las páginas y extraer el texto
-            for page_number in range(total_pages):
-                # Obtener la página específica
-                page = reader.pages[page_number]
-
-                # Extraer el texto de la página y agregarlo a la variable
-                extracted_text += page.extract_text()
-
+        pdf_file = request.FILES['archivo_pdf']
+        pdf_file_bytes = pdf_file.read()
+        pdf_file_obj = BytesIO(pdf_file_bytes)
+        text = extract_text_from_uploaded_pdf_helper(pdf_file_obj)
+        
         # Puedes hacer cualquier otra cosa con la variable 'extracted_text' aquí
         ruta_archivo = os.path.join(settings.BASE_DIR, './incluLectora/static/tmp', 'archivo.txt')
 
-        text = extracted_text.encode('utf-8')
-        print(text.decode("utf-8"))
-
-        with open(ruta_archivo, 'w', encoding='utf-8') as archivo:
-            archivo.write(text.decode("utf-8").rstrip("\n"))
+        with open(ruta_archivo, 'w') as archivo:
+            archivo.write(text)
         archivo.close()
 
-        ruta_archivo = os.path.join(settings.BASE_DIR, './incluLectora/static/tmp', 'archivo.txt')
-
-        with open(ruta_archivo, 'r', encoding='utf-8') as archivo:
+        with open(ruta_archivo, 'r') as archivo:
             text = archivo.read()
 
+        # Convertir el texto extraído a audio
         language = 'es-us'
         speech = gTTS(text=text, lang=language, slow=False)
-        # Guardar el archivo de audio
-        speech.save("./incluLectora/static/tmp/audio.mp3")
+        
+        # Crear un objeto BytesIO para almacenar el audio en memoria
+        audio_bytes = BytesIO()
+        speech.write_to_fp(audio_bytes)
+        audio_bytes.seek(0)
+        
+        # Codificar los bytes del audio en Base64
+        audio_base64 = base64.b64encode(audio_bytes.getvalue()).decode('utf-8')
+        
+        # Devolver respuesta JSON con el mensaje de texto y el audio en formato Base64
+        return JsonResponse({'mensaje': text, 'audio': audio_base64}, status=200)
 
-        # Devolver respuesta JSON con el texto extraído
-        return JsonResponse({'mensaje': extracted_text})
     else:
         return JsonResponse({'mensaje': 'Error: No se recibió el archivo PDF'}, status=400)
 
-        
+       
