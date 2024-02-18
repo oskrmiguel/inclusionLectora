@@ -14,4 +14,5 @@ urlpatterns = [
     path('',views.pagina_principal,name='principal'),
     path('register/',views.register,name='register'),
     path('dashboard/pdf', views.cargar_pdf, name='cargar_pdf'),
+    path('dashboard/guardar_archivos', views.guardar_archivos, name='guardar_archivos'),
 ]

@@ -6,7 +6,9 @@ from django.contrib.auth.decorators import login_required
 from .forms import LoginForm, UserRegistrationForm
 from django.http import JsonResponse
 from django.conf import settings
-import PyPDF2
+from .models import Archivo
+from django.contrib.auth.models import User
+import json
 
 from io import BytesIO
 from pdfminer.high_level import extract_text_to_fp
@@ -95,11 +97,30 @@ def cargar_pdf(request):
         
         # Codificar los bytes del audio en Base64
         audio_base64 = base64.b64encode(audio_bytes.getvalue()).decode('utf-8')
-        
+        print("correcto hasta aqui:", text)
         # Devolver respuesta JSON con el mensaje de texto y el audio en formato Base64
         return JsonResponse({'mensaje': text, 'audio': audio_base64}, status=200)
 
     else:
+        print("error en el pdf")
         return JsonResponse({'mensaje': 'Error: No se recibió el archivo PDF'}, status=400)
 
-       
+def guardar_archivos(request):
+    if request.method == 'POST':
+        usuario_id = request.POST.get('usuario')  # Obtener el ID de usuario serializado
+
+        try:
+            usuario = User.objects.get(id=usuario_id)  # Obtener la instancia de User
+        except User.DoesNotExist:
+            return JsonResponse({'error': f'El usuario con ID "{usuario_id}" no existe'}, status=404)
+
+        archivo_txt = request.FILES.get('archivo_txt')
+        archivo_audio = request.FILES.get('archivo_audio')
+
+        # Crear una instancia de Archivo y guardar los datos
+        nuevo_archivo = Archivo(usuario=usuario, archivo_txt=archivo_txt, archivo_audio=archivo_audio)
+        nuevo_archivo.save()
+
+        return JsonResponse({'mensaje': 'Archivos guardados correctamente'}, status=200)
+    else:
+        return JsonResponse({'error': 'Error al guardar'}, status=405)
