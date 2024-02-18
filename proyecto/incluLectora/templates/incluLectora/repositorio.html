@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 {% load static %}
+
 {% block title %}Repositorio{% endblock %}
+
 {% block content %}
 <h1>Archivos del Repositorio</h1>
 {% if archivos_usuario %}
@@ -24,12 +26,60 @@
 <p>No hay archivos en el repositorio.</p>
 {% endif %}
 
+<!-- Modal -->
+<div id="myModal" class="modal">
+  <div class="modal-content">
+    <span class="close">×</span>
+    <p id="modalText"></p>
+  </div>
+</div>
+
+<!-- Audio Player -->
+<div id="audioPlayer" class="audio-player">
+  <audio id="audio" type="audio/mp3"></audio>
+  <button class="btn play"><i class="fa-solid fa-play"></i></button>
+  <button class="btn pause"><i class="fa-solid fa-pause"></i></button>
+  <!-- Add more controls as needed -->
+</div>
+
+<style>
+.modal {
+  display: none; 
+  position: fixed; 
+  z-index: 1; 
+  left: 0;
+  top: 0;
+  width: 100%; 
+  height: 100%; 
+  overflow: auto; 
+  background-color: rgb(0,0,0); 
+  background-color: rgba(0,0,0,0.4); 
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; 
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; 
+}
+</style>
+
 <script>
+
+  
+  var modal = document.getElementById("myModal");
+  var span = document.getElementsByClassName("close")[0];
+  var audio = document.getElementById("audio");
+  var playButton = document.querySelector('.play');
+  var pauseButton = document.querySelector('.pause');
+
   function showFileContent(fileUrl) {
     fetch(fileUrl)
       .then(response => response.text())
       .then(data => {
-        alert(data); // Aquí podrías mostrar el contenido en un modal o en un área específica de la página
+        document.getElementById('modalText').innerText = data;
+        modal.style.display = "block";
       })
       .catch(error => {
         console.error('Error al cargar el contenido del archivo:', error);
@@ -37,8 +87,32 @@
   }
 
   function playAudio(audioUrl) {
-    const audio = new Audio(audioUrl);
+    audio.src = audioUrl;
+    playButton.style.display = 'none';
+    pauseButton.style.display = 'inline-block';
     audio.play();
+  }
+
+  playButton.addEventListener('click', function () {
+    playButton.style.display = 'none';
+    pauseButton.style.display = 'inline-block';
+    audio.play();
+  });
+
+  pauseButton.addEventListener('click', function () {
+    pauseButton.style.display = 'none';
+    playButton.style.display = 'inline-block';
+    audio.pause();
+  });
+
+  span.onclick = function() {
+    modal.style.display = "none";
+  }
+
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
   }
 </script>
 {% endblock %}
