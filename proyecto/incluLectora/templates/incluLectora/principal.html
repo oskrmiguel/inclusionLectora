@@ -6,37 +6,101 @@
   <title>Página Principal</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
   <style>
-    .hero-background {
-      background-image: url('portada.png');
-      background-size: cover;
-      background-position: center;
-      height: 100vh;
-    }
-    .hero-body {
+    /* Hero section */
+    .hero {
+      background-color: #f0f8ff; /* Light pastel blue */
+      min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
     }
+
+    .hero-body {
+      background-color: #fff; /* White */
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+      padding: 40px;
+      max-width: 800px; /* Ensure content is readable on different screen sizes */
+    }
+
+    /* Main content sections */
+    .section {
+      padding: 40px;
+      background-color: #f8f8f8; /* Light gray */
+    }
+
+    /* Text styles */
+    .title, .subtitle {
+      color: #333; /* Dark gray */
+      text-align: center;
+    }
+
+    p {
+      line-height: 1.5; /* Improve readability */
+      color: #333; /* Dark gray */
+    }
+
+    /* Buttons */
+    .buttons {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    .buttons .button {
+      margin: 0 10px;
+      background-color: #fff; /* White */
+      color: #333; /* Dark gray */
+      border: 1px solid #ccc; /* Light gray */
+      border-radius: 5px;
+      padding: 10px 20px;
+    }
+
+    .buttons .button:hover {
+      background-color: #008000; /* Dark green */
+      color: #fff; /* White */
+    }
+
+    /* Footer */
+    .footer {
+      background-color: #f5f5f5; /* Light gray */
+      padding: 20px 0;
+      text-align: center;
+    }
+
+    /* Accessibility considerations */
+    * {
+      box-sizing: border-box; /* Ensures consistent box model */
+    }
+
+    a {
+      text-decoration: none; /* Remove default styling and use CSS for control */
+    }
+
+    img {
+      alt="Imagen descriptiva"; /* Provide alternative text for images */
+    }
+
+    /* Reemplazo de imagen de portada y logo */
+    .hero-body h1 {
+      font-size: 36px; /* Increase font size for better readability */
+      font-weight: bold;
+    }
+
+    .hero-body p {
+      font-size: 24px; /* Increase font size for better readability */
+    }
   </style>
 </head>
 <body>
-  <section class="hero is-primary is-fullheight hero-background">
-    <div class="hero-head">
-      <nav class="navbar" role="navigation" aria-label="main navigation">
-        <div class="navbar-brand">
-          <a class="navbar-item" href="#">
-            <img src="logo.jpg" alt="Logo">
-          </a>
-        </div>
-      </nav>
-    </div>
+  <section class="hero">
     <div class="hero-body">
       <div class="container">
-        <h1 class="title is-1">Bienvenido a nuestra aplicación</h1>
-        <p class="subtitle is-3">Una herramienta diseñada para personas con discapacidad visual</p>
+        <center><h1>Bienvenido a nuestra aplicación</h1></center>
+        <p>Una herramienta diseñada para personas con discapacidad visual</p>
         <div class="buttons">
-          <a class="button is-primary is-medium" href="{% url 'login' %}">Iniciar Sesión</a>
-          <a class="button is-link is-medium" href="{% url 'register' %}">Registrarse</a>
+          <a class="button is-primary is-medium" href="{% url 'login' %}" aria-label="Iniciar Sesión">Iniciar Sesión</a>
+          <a class="button is-link is-medium" href="{% url 'register' %}" aria-label="Registrarse">Registrarse</a>
         </div>
       </div>
     </div>
@@ -44,21 +108,7 @@
   <section class="section">
     <div class="container">
       <h2 class="title is-2">Información Importante</h2>
-      <p>La discapacidad visual es una roblemática que debe ser atendida, todo merecemos tener la mis aportunidad de condiciones para expresar nuestro talento y cualidades en este mundo</p>
+      <p>La discapacidad visual es una problemática que debe ser atendida, todo merecemos tener la misma oportunidad de condiciones para expresar nuestro talento y cualidades en este mundo</p>
     </div>
   </section>
   <section class="section">
-    <div class="container">
-      <h2 class="title is-2">Contáctanos</h2>
-      <p>0939943013</p>
-    </div>
-  </section>
-  <footer class="footer">
-    <div class="content has-text-centered">
-      <p>
-        <strong>Más información</strong> sobre la discapacidad visual y cómo apoyar a quienes la padecen.
-      </p>
-    </div>
-  </footer>
-</body>
-</html>

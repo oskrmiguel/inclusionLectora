@@ -1,1 +1,27 @@
-hola como estas
+Para el proyecto final de la signatura de HUMAN PERCEPTION IN COMPUTER VISION se
+realizó el desarrollo de una web donde el usuario pueda subir imágenes las cuales serán
+procesadas por modelos los cuales procesarán la imagen extrayendo la tabla de datos
+presente en dicha imagen, extrayendo en texto la descripción de la información de la tabla
+de la imagen, el proyecto trata de contrucción de un modelo para la captura de información
+desde imágenes de tablas de datos. El objetivo del proyecto es en sí la construcción del
+modelo necesario además de trabajar en un prototipo del proyecto de trabajo de titulación.
+La descripción del proyecto y el alcance es que debido a la carencia de herramientas para
+la asistencia de personas con discapacidad visual dentro de la universidad Nacional de
+Loja, dentro de los problemas presentes está la dificultad de acceso a la información en
+medios tanto digitales como escritos de manera física , dado este contexto y debido a la
+gran variedad de soluciones tecnológicas que se podría desarrollar para el apoyo de los
+mismos es necesario enfocarse en un escenario específico, debido a lo cual el tema
+presentado es la captura de información de tablas simples de datos, como el objetivos será
+su desarrollo se plantea como meta la captura de información de tablas simples de
+pequeños tamaños como lo pueden ser de 5*5 o 10*10, el modelo solo capturará la
+información sin detectar su tipo por lo que se tratara como texto todo lo contenido en las
+mismas , no reconociendo casos especiales como fórmulas matemáticas, gráficos entre
+otras excepciones, una vez obtenida la información de estas tablas se implementará una
+solución basada en un modelo de PLN para poder realizar preguntas de la información
+extraída, la cual la salida deberá ser en forma de audio , esto debido a que el enfoque está
+en las personas con discapacidad visual de la universidad por lo que debe ser de una forma
+accesible a los mismos.
+
+La forma de uso del proyecto es que el usuario deberá elegir una imagen de su dispositivo y
+subirla a la la página, con esto obtendrá la descripción de la misma, además de contar con
+un chat para realizar preguntas acerca del proyecto.

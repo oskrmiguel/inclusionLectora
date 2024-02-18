@@ -45,6 +45,17 @@ def pagina_principal(request):
 def dashboard(request):
     return render(request,'incluLectora/dashboard.html')
 
+@login_required
+def repositorio(request):
+    # Obtener todos los archivos del usuario actual
+    archivos_usuario = Archivo.objects.filter(usuario=request.user)
+
+    # Pasar los archivos a la plantilla para su renderización en HTML
+    context = {'archivos_usuario': archivos_usuario}
+    
+    # Renderizar la plantilla con los archivos del usuario
+    return render(request, 'incluLectora/repositorio.html', context)
+
 
 def register(request):
     if request.method=='POST':
