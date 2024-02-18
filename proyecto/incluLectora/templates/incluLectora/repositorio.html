@@ -4,27 +4,49 @@
 {% block title %}Repositorio{% endblock %}
 
 {% block content %}
-<h1>Archivos del Repositorio</h1>
-{% if archivos_usuario %}
-<table class="table">
-  <thead>
-    <tr>
-      <th scope="col">Archivo .txt</th>
-      <th scope="col">Audio</th>
-    </tr>
-  </thead>
-  <tbody id="fileList">
-    {% for archivo in archivos_usuario %}
-    <tr>
-      <td><a href="#" onclick="showFileContent('{{ archivo.archivo_txt.url }}')">{{ archivo.archivo_txt.name }}</a></td>
-      <td><a href="#" onclick="playAudio('{{ archivo.archivo_audio.url }}')">{{ archivo.archivo_audio.name }}</a></td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
-{% else %}
-<p>No hay archivos en el repositorio.</p>
-{% endif %}
+<main class="container">
+  <div class="row">
+    <div class="col-md-6 offset-md-3"> <!-- Centrar el cuadro en pantallas medianas -->
+      <div class="card">
+        <h1>Archivos del Repositorio</h1>
+        {% if archivos_usuario %}
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Archivo .txt</th>
+              <th scope="col">Audio</th>
+            </tr>
+          </thead>
+          <tbody id="fileList">
+            {% for archivo in archivos_usuario %}
+            <tr>
+              <td>
+                <a href="#" onclick="showFileContent('{{ archivo.archivo_txt.url }}')">{{ archivo.archivo_txt.name }}</a>
+                <a href="{{ archivo.archivo_txt.url }}" download="{{ archivo.archivo_txt.name }}"><i class="fa-solid fa-download"></i></a>
+              </td>
+              <td>
+                <a href="#" onclick="playAudio('{{ archivo.archivo_audio.url }}')">{{ archivo.archivo_audio.name }}</a>
+                <a href="{{ archivo.archivo_audio.url }}" download="{{ archivo.archivo_audio.name }}"><i class="fa-solid fa-download"></i></a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+
+        <!-- Audio Player -->
+        <div id="audioPlayer" class="audio-player">
+          <audio id="audio" type="audio/mp3"></audio>
+          <button class="btn play"><i class="fa-solid fa-play"></i></button>
+          <button class="btn pause"><i class="fa-solid fa-pause"></i></button>
+          <!-- Add more controls as needed -->
+        </div>
+        {% else %}
+        <p>No hay archivos en el repositorio.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</main>
 
 <!-- Modal -->
 <div id="myModal" class="modal">
@@ -34,15 +56,22 @@
   </div>
 </div>
 
-<!-- Audio Player -->
-<div id="audioPlayer" class="audio-player">
-  <audio id="audio" type="audio/mp3"></audio>
-  <button class="btn play"><i class="fa-solid fa-play"></i></button>
-  <button class="btn pause"><i class="fa-solid fa-pause"></i></button>
-  <!-- Add more controls as needed -->
-</div>
-
 <style>
+body {
+  background-color: #f2f2f2; /* Color de fondo gris claro */
+}
+
+.container {
+  margin-top: 100px; /* Margen superior aumentado para centrar el cuadro */
+}
+
+.card {
+  background-color: #fff; /* Fondo blanco para el cuadro */
+  padding: 20px; /* Espaciado interno */
+  border-radius: 15px; /* Esquinas redondeadas */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+}
+
 .modal {
   display: none; 
   position: fixed; 
@@ -66,8 +95,6 @@
 </style>
 
 <script>
-
-  
   var modal = document.getElementById("myModal");
   var span = document.getElementsByClassName("close")[0];
   var audio = document.getElementById("audio");
