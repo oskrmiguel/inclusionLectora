@@ -1,1 +1,90 @@
-hola como estas
+PROPUESTA TRABAJO FINAL DE ASIGNATURA HUMAN PERCEPTION IN
+
+COMPUTER VISION
+
+Nombre: Patricio Paredes
+
+1. Título
+
+a. Modelo para la captura de información desde imágenes de tablas de datos.
+
+2. Objetivo:
+
+a. Desarrollar un modelo para la captura de información de tablas de datos.
+
+3. Descripción y alcance:
+
+a. Debido a la carencia de herramientas para la asistencia de personas con
+discapacidad visual dentro de la universidad Nacional de Loja, dentro de los
+problemas presentes está la dificultad de acceso a la información en medios tanto
+digitales como escritos de manera física , dado este contexto y debido a la gran
+variedad de soluciones tecnológicas que se podría desarrollar para el apoyo de los
+mismos es necesario enfocarse en un escenario específico, debido a lo cual el tema
+presentado es la captura de información de tablas simples de datos, como el
+objetivos será su desarrollo se plantea como meta la captura de información de
+tablas simples de pequeños tamaños como lo pueden ser de 5*5 o 10*10, el
+modelo solo capturará la información sin detectar su tipo por lo que se tratara
+como texto todo lo contenido en las mismas , no reconociendo casos especiales
+como fórmulas matemáticas, gráficos entre otras excepciones, una vez obtenida la
+información de estas tablas se implementará una solución basada en un modelo de
+PLN para poder realizar preguntas de la información extraída, la cual la salida
+deberá ser en forma de audio , esto debido a que el enfoque está en las personas
+con discapacidad visual de la universidad por lo que debe ser de una forma
+accesible a los mismos.
+
+b. Definir al menos cinco procesos para la aplicación web y tres procesos en la
+
+aplicación móvil.
+Parte Web:
+1. Ingresar mediante credenciales
+2. Cargar archivos tipo imagen jpg, png.
+3. Extraer la información de las tablas que se encuentren en las imágenes subidas
+4. Generación de voz para describir cómo contestar preguntas acerca de la
+información extraída de las tablas.
+5. Chat disponible para la realización de preguntas de la información extraída como
+contexto.
+6. Listar las imágenes así como la información extraída.
+En la parte móvil:
+No se plantea como alcance la realización de la parte móvil de la aplicación
+
+4. Modelo del proceso
+
+a. Modelo de Desarrollo Iterativo: El uso de un Modelo de Desarrollo Iterativo en el
+desarrollo de un modelo de extracción de información de tablas en imágenes se
+justifica por varias razones clave. En este contexto, la complejidad inherente de la
+tarea de extracción de información de imágenes, especialmente de tablas, puede
+evolucionar a medida que se comprenden mejor los desafíos específicos del
+
+dominio y se exploran soluciones. Un enfoque iterativo permite a los
+desarrolladores abordar progresivamente los aspectos más desafiantes del
+problema, refinando y ajustando el modelo en cada iteración. Dado que el
+aprendizaje automático a menudo implica una comprensión profunda de los datos
+y la retroalimentación continua del rendimiento del modelo, el enfoque iterativo
+facilita la adaptación a cambios en los requisitos y a la complejidad emergente.
+Además, permite una integración más efectiva de las retroalimentaciones de los
+usuarios y partes interesadas, lo que resulta en un modelo más preciso y eficiente a
+lo largo del tiempo. La capacidad de realizar ajustes incrementales en función de la
+retroalimentación y la evolución del conocimiento contribuye a un desarrollo más
+ágil y efectivo en el ámbito específico de la extracción de información de tablas en
+imágenes.
+
+5. Metodología
+
+Se utilizará la metodología XP , esto debido a que la retroalimentación
+frecuente es crucial para este proyecto de aprendizaje automático, ya que
+los modelos suelen requerir ajustes y mejoras constantes. XP fomenta la
+retroalimentación continua, lo que permitiría ajustar y mejorar el modelo
+de extracción de información de manera iterativa, además de ser
+desarrollo iterativo e incremental, lo cual es beneficioso para el proyecto
+donde la complejidad del problema puede evolucionar a lo largo del
+tiempo. Puedes comenzar con una versión básica del modelo que extraiga
+información esencial y luego mejorarla en iteraciones posteriores.
+
+6. Materiales y Herramientas
+
+● Flask
+● Python
+● Google colab
+● huggingface
+● Visual Studio Code
+● Tensorflow/ Pytorch

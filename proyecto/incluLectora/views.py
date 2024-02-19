@@ -79,11 +79,11 @@ def cargar_pdf(request):
         # Puedes hacer cualquier otra cosa con la variable 'extracted_text' aquí
         ruta_archivo = os.path.join(settings.BASE_DIR, './incluLectora/static/tmp', 'archivo.txt')
 
-        with open(ruta_archivo, 'w') as archivo:
+        with open(ruta_archivo, 'w', encoding='utf-8') as archivo:
             archivo.write(text)
         archivo.close()
 
-        with open(ruta_archivo, 'r') as archivo:
+        with open(ruta_archivo, 'r', encoding='utf-8') as archivo:
             text = archivo.read()
 
         # Convertir el texto extraído a audio
