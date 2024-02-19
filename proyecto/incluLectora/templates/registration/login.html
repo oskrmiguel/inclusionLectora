@@ -1,33 +1,38 @@
 {% extends "base.html" %}
 {% block title %}Login{% endblock %}
-<div class="columns">
+
 {% block content %}
-  <div class="column is-half">
-    <h1 class="is-size-3 mt-3">Log-in</h1>
-    {% if form.errors %}
-      <p class="is-size-5">
-        Your username and password didn't match.
-        Please try again.
-      </p>
-    {% else %}
-      <p>
-        Please, use the following form to log-in. 
-        ¿no tienes cuenta? <a href="{% url "register" %}">registrate aqui</a>.
-      </p>
-    {% endif %}
-    
-    <div class="login-form">
-      <form action="{% url 'login' %}" method="post">
-        {% load widget_tweaks %}
-        {% for field in form %}
-          {{field.label_tag}}
-          {% render_field field class+="input mt-2" %}
-        {% endfor %}
-        {% csrf_token %}
-        <input type="submit" value="Login" class="button mt-2">
-        <input type="hidden" name="next" value="{{ next }}" />
-      </form>
+<div class="columns">
+  <div class="column is-half is-offset-one-quarter"> <!-- Centrar el cuadro en pantallas medianas -->
+    <div class="card">
+      <div class="card-content">
+        <center><h1 class="is-size-3 mt-3">Login</h1></center>
+        {% if form.errors %}
+          <p class="is-size-5">
+            Your username and password didn't match.
+            Please try again.
+          </p>
+        {% else %}
+          <p>
+            Por favor, rellena el siguiente formulario: <br>
+            ¿No tienes cuenta? <a href="{% url "register" %}">registrate aqui</a>.
+          </p>
+        {% endif %}
+        
+        <div class="login-form">
+          <form action="{% url 'login' %}" method="post">
+            {% load widget_tweaks %}
+            {% for field in form %}
+              {{field.label_tag}}
+              {% render_field field class+="input mt-2" %}
+            {% endfor %}
+            {% csrf_token %}
+            <input type="submit" value="Login" class="button mt-2">
+            <input type="hidden" name="next" value="{{ next }}" />
+          </form>
+        </div>
+      </div>
     </div>
+  </div>
 </div>
-  {% endblock %}
-</div>
+{% endblock %}

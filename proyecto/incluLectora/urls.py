@@ -1,6 +1,8 @@
 from django.urls import path,include
 from django.contrib.auth import views as auth_views
 from . import views
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     #path('login/',views.user_login,name='login')    Es del modelo creado por nosotros
@@ -15,4 +17,5 @@ urlpatterns = [
     path('register/',views.register,name='register'),
     path('dashboard/pdf', views.cargar_pdf, name='cargar_pdf'),
     path('dashboard/guardar_archivos', views.guardar_archivos, name='guardar_archivos'),
-]
+    path('respositorio/',views.repositorio,name='repositorio'),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

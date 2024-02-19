@@ -1,27 +1,44 @@
 {% extends "base.html" %}
 {% block title %}Create an account{% endblock %}
-<div class="columns">
 
-  {% block content %}
-  <div class="column is-half">
+{% block content %}
+<style>
+body {
+  background-color: #f0f0f0; /* Color de fondo gris claro */
+}
 
-      <h1 class="is-size-3 mt-3">Create an account</h1>
-      <p class="is-size-5">Please, sign up using the following form:</p>
-      <div class="login-form">
+.centered-form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Ajusta esto según tus necesidades */
+}
 
-        <form method="post">    
-          {% load widget_tweaks %}
-          {{ user_form.username.label_tag }} {% render_field user_form.username class+="input mt-2"%}
-          {{ user_form.first_name.label_tag }} {% render_field user_form.first_name class+="input mt-2"%}
-          {{ user_form.email.label_tag }} {% render_field user_form.email class+="input mt-2"%}
-          {{ user_form.password.label_tag }} {% render_field user_form.password class+="input mt-2"%}
-          {{ user_form.password2.label_tag }} {% render_field user_form.password2 class+="input mt-2"%}
-          {% csrf_token %}
-      
-          <input type="submit" value="Create my account" class="button mt-2 is-link">
-        </form>
-      </div>
+.form-box {
+  border: 1px solid #000; /* Cambia el color y el grosor del borde según prefieras */
+  padding: 20px;
+  width: 50%; /* Ajusta el ancho según tus necesidades */
+  background-color: #ffffff; /* Color de fondo del recuadro */
+}
+</style>
+
+<div class="centered-form">
+  <div class="form-box">
+    <center><h1 class="is-size-3 mt-3">CREAR CUENTA</h1></center>
+    <p class="is-size-5">Por favor, llena el siguiente formulario:</p><br>
+    <div class="login-form">
+      <form method="post">    
+        {% load widget_tweaks %}
+        {{ user_form.username.label_tag }} {% render_field user_form.username class+="input mt-2"%}
+        {{ user_form.first_name.label_tag }} {% render_field user_form.first_name class+="input mt-2"%}
+        {{ user_form.email.label_tag }} {% render_field user_form.email class+="input mt-2"%}
+        {{ user_form.password.label_tag }} {% render_field user_form.password class+="input mt-2"%}
+        {{ user_form.password2.label_tag }} {% render_field user_form.password2 class+="input mt-2"%}
+        {% csrf_token %}
+    
+        <center><input type="submit" value="Crear Cuenta" class="button mt-2 is-link"></center>
+      </form>
     </div>
-  {% endblock %}
-
+  </div>
 </div>
+{% endblock %}
