@@ -80,6 +80,7 @@ def extract_text_from_uploaded_pdf_helper(pdf_file_obj):
     output_string.close()
     return text
 
+
 def cargar_pdf(request):
     if request.method == 'POST' and request.FILES.get('archivo_pdf'):
         pdf_file = request.FILES['archivo_pdf']
